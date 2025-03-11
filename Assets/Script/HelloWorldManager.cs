@@ -1,68 +1,79 @@
-using Unity.Netcode;
-using UnityEngine;
+//using System.Globalization;
+//using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
+//using Unity.Netcode;
+//using Unity.Netcode.Components;
+//using UnityEngine;
 
-namespace HelloWorld
-{
-    public class HelloWorldManager : MonoBehaviour
-    {
-        private NetworkManager m_NetworkManager;
+//namespace HelloWorld
+//{
+//    public class HelloWorldManager : NetworkBehaviour
+//    {
 
-        void Awake()
-        {
-            m_NetworkManager = GetComponent<NetworkManager>();
-        }
+//        private void Start()
+//        {
+//            Debug.Log($"Connection Approval: {NetworkManager.Singleton.NetworkConfig.ConnectionApproval}");
+//            Debug.Log($"Protocol Version: {NetworkManager.Singleton.NetworkConfig.ProtocolVersion}");
+//            Debug.Log($"Transport Type: {NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType()}");
+//        }
 
-        void OnGUI()
-        {
-            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-            if (!m_NetworkManager.IsClient && !m_NetworkManager.IsServer)
-            {
-                StartButtons();
-            }
-            else
-            {
-                StatusLabels();
+//        public override void OnNetworkSpawn()
+//        {
+//            base.OnNetworkSpawn();
 
-                SubmitNewPosition();
-            }
+//            if (IsOwner)
+//            {
+//                Debug.Log("Jestem wxaxcicielem tego obiektu!");
+//                GetComponent<ClientNetworkTransform>().enabled = true;
+//            }
+//            else
+//            {
+//                Debug.Log("Nie jestem wxaxcicielem, nie wxxczam ClientNetworkTransform.");
+//            }
+//        }
 
-            GUILayout.EndArea();
-        }
+//        private NetworkManager m_NetworkManager;
 
-        void StartButtons()
-        {
-            if (GUILayout.Button("Host")) m_NetworkManager.StartHost();
-            if (GUILayout.Button("Client")) m_NetworkManager.StartClient();
-            if (GUILayout.Button("Server")) m_NetworkManager.StartServer();
-        }
+//        //void Awake()
+//        //{
+//        //    Debug.Log("HelloWorldManager zostxx dodany do obiektu: " + gameObject.name);
+//        //    m_NetworkManager = NetworkManager.Singleton;
+//        //}
 
-        void StatusLabels()
-        {
-            var mode = m_NetworkManager.IsHost ?
-                "Host" : m_NetworkManager.IsServer ? "Server" : "Client";
+//        void OnGUI()
+//        {
+//            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+//            if (!m_NetworkManager.IsClient && !m_NetworkManager.IsServer)
+//            {
+//                StartButtons();
+//            }
+//            else
+//            {
+//                StatusLabels();
 
-            GUILayout.Label("Transport: " +
-                m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
-            GUILayout.Label("Mode: " + mode);
-        }
+//            }
 
-        //The HelloWorldManager.cs script also introduces a new method called SubmitNewPosition() that the HelloWorldPlayer script uses to create a simple RPC call.
-        void SubmitNewPosition()
-        {
-            if (GUILayout.Button(m_NetworkManager.IsServer ? "Move" : "Request Position Change"))
-            {
-                if (m_NetworkManager.IsServer && !m_NetworkManager.IsClient)
-                {
-                    foreach (ulong uid in m_NetworkManager.ConnectedClientsIds)
-                       m_NetworkManager.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<HelloWorldPlayer>().Move();
-                }
-                else
-                {
-                    var playerObject = m_NetworkManager.SpawnManager.GetLocalPlayerObject();
-                    var player = playerObject.GetComponent<HelloWorldPlayer>();
-                    player.Move();
-                }
-            }
-        }
-    }
-}
+//            GUILayout.EndArea();
+//        }
+
+//        void StartButtons()
+//        {
+//            if (NetworkManager.Singleton.IsClient || NetworkManager.Singleton.IsServer)
+//                return;
+
+//            if (GUILayout.Button("Host")) NetworkManager.Singleton.StartHost();
+//            if (GUILayout.Button("Client")) NetworkManager.Singleton.StartClient();
+//            if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
+//        }
+
+//        void StatusLabels()
+//        {
+//            var mode = m_NetworkManager.IsHost ?
+//                "Host" : m_NetworkManager.IsServer ? "Server" : "Client";
+
+//            GUILayout.Label("Transport: " +
+//                m_NetworkManager.NetworkConfig.NetworkTransport.GetType().Name);
+//            GUILayout.Label("Mode: " + mode);
+//        }
+
+//    }
+//}
