@@ -17,7 +17,7 @@ public class PlayerController : NetworkBehaviour
 
     void Update() 
     {
-        if (!Application.isFocused) return;
+        if (!IsOwner || !Application.isFocused) return;
         float horizontalInput = Input.GetAxis("Horizontal") * speed;
         float verticalInput = Input.GetAxis("Vertical") * speed;
         transform.position += new Vector3(horizontalInput, 0, verticalInput);
